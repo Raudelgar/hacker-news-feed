@@ -29,11 +29,11 @@ export default class Top extends Component {
 	}
 
 	render() {
-		const { storiesIds, stories } = this.state;
+		const { stories } = this.state;
 		return (
-			<div className='container'>
+			<React.Fragment>
 				{!stories.length ? <Loader /> : <Stories stories={stories} />}
-			</div>
+			</React.Fragment>
 		);
 	}
 }

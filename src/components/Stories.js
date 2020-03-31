@@ -1,7 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import Loader from './Loader.js';
+import Story from './Story.js';
 
 export default function Stories({ stories }) {
-	return <pre>{JSON.stringify(stories, null, 2)}</pre>;
+	return (
+		<ul>
+			{stories.map(story => (
+				<li key={story.id} style={{ margin: '20px 0' }}>
+					<Story story={story} />
+				</li>
+			))}
+		</ul>
+	);
 }
+
+Stories.propTypes = {
+	stories: PropTypes.array.isRequired
+};

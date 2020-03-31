@@ -1,0 +1,13 @@
+.loader h2 {
+	display: inline-block;
+}
+
+.loader::after {
+	content: '\2026';
+	display: inline-block;
+	font-size: 2rem;
+	vertical-align: bottom;
+	overflow: hidden;
+	width: 0;
+	animation: dots steps(5, end) 3s infinite;
+}

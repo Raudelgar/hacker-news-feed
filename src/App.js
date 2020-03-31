@@ -1,9 +1,13 @@
 import React from 'react';
 
+import Top from './components/Top.js';
+
 export default function App(props) {
 	return (
-		<div className='App'>
-			<h1>Hello World!</h1>
+		<div className='light'>
+			<div className='container'>
+				<Top />
+			</div>
 		</div>
 	);
 }

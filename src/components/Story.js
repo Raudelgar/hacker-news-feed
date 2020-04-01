@@ -9,10 +9,14 @@ export default function Story({ story }) {
 
 	return (
 		<React.Fragment>
-			<a href={url} target='_blank' className='link'>
-				{title}
-			</a>
-			<StoryInfo info={{ by, time, id, descendants }} />
+			{title && (
+				<React.Fragment>
+					<a href={url} target='_blank' className='link'>
+						{title}
+					</a>
+					<StoryInfo info={{ by, time, id, descendants }} />
+				</React.Fragment>
+			)}
 		</React.Fragment>
 	);
 }

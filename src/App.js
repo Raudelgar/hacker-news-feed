@@ -5,6 +5,7 @@ import NavBar from './components/NavBar.js';
 import Top from './components/Top.js';
 import Comments from './components/Comments.js';
 import Posts from './components/Posts.js';
+import NewStories from './components/NewStories.js';
 
 export default function App(props) {
 	return (
@@ -16,6 +17,7 @@ export default function App(props) {
 						<Route exact path='/' component={Top} />
 						<Route path='/comments' component={Comments} />
 						<Route path='/user' component={Posts} />
+						<Route path='/new' component={NewStories} />
 						<Route
 							render={() => (
 								<div>

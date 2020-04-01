@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import queryString from 'query-string';
 
 import Loader from './Loader.js';
+import Story from './Story.js';
+
 import { fetchUserById, getStoriesFromId } from '../api/hn/hn-api';
 import { insertInnerHtml } from '../util/insertInnerHtml.js';
 
@@ -25,18 +27,18 @@ export default class Posts extends Component {
 	componentDidUpdate(prevProps, prevState) {
 		const { postIds } = this.state;
 		if (prevState.postIds.length !== postIds.length) {
-			// getStoriesFromId(commentsIds)
-			// 	.then(data => this.setState({ comments: data }))
-			// 	.catch(error => console.log(error));
+			getStoriesFromId(postIds)
+				.then(data => this.setState({ posts: data }))
+				.catch(error => console.log(error));
 		}
 	}
 
 	render() {
 		const { user, posts } = this.state;
-		console.log(user);
+
 		return (
 			<React.Fragment>
-				{user === null ? (
+				{!posts.length ? (
 					<Loader />
 				) : (
 					<React.Fragment>
@@ -48,11 +50,14 @@ export default class Posts extends Component {
 							<span>has {user.karma.toLocaleString()} karma</span>
 						</div>
 						<p dangerouslySetInnerHTML={insertInnerHtml(user.about)}></p>
-						{/* <StoryInfo info={header} />
-						<br></br>
-						{comments.map(comment => (
-							<Comment key={comment.id} comment={comment} />
-						))} */}
+						<h2>Posts</h2>
+						<ul>
+							{posts.map(post => (
+								<li key={post.id} style={{ margin: '20px 0' }}>
+									<Story story={post} />
+								</li>
+							))}
+						</ul>
 					</React.Fragment>
 				)}
 			</React.Fragment>

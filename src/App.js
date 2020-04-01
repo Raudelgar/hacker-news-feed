@@ -2,10 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar.js';
-import Top from './components/Top.js';
 import Comments from './components/Comments.js';
 import Posts from './components/Posts.js';
-import NewStories from './components/NewStories.js';
+import Store from './components/Store.js';
 
 export default function App(props) {
 	return (
@@ -14,10 +13,10 @@ export default function App(props) {
 				<div className='container'>
 					<NavBar />
 					<Switch>
-						<Route exact path='/' component={Top} />
+						<Route exact path='/' component={Store} />
+						<Route path='/new' component={Store} />
 						<Route path='/comments' component={Comments} />
 						<Route path='/user' component={Posts} />
-						<Route path='/new' component={NewStories} />
 						<Route
 							render={() => (
 								<div>

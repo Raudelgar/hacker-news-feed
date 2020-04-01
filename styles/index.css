@@ -2,6 +2,7 @@
 @import './NavBar.css';
 @import './Story.css';
 @import './Comment.css';
+@import './Posts.css';
 
 *,
 *::before,
@@ -45,6 +46,10 @@ li {
 
 .header {
 	margin-bottom: 5px;
+}
+
+.link-dec-light {
+	color: #000;
 }
 
 @keyframes dots {

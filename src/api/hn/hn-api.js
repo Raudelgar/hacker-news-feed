@@ -51,6 +51,19 @@ export function fetchStorieById(id) {
 		.then(story => story);
 }
 
+export function fetchUserById(id) {
+	const url = `${BASE_HOST}/user/${id}.json${JSON_PRETTY_PARAMS}`;
+	return fetch(url)
+		.then(res => {
+			if (!res.ok) {
+				throw new Error(getErrorMessages(res.status, null));
+			}
+
+			return res.json();
+		})
+		.then(user => user);
+}
+
 function getErrorMessages(status, msg) {
 	if (!status) {
 		return msg;

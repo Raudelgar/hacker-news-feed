@@ -6,11 +6,23 @@ export default function StoryInfo({ info }) {
 	const { by, time, id, descendants } = info;
 	return (
 		<div className='meta-info-light'>
-			<span>by {by} </span>
+			<span>
+				by{' '}
+				<Link
+					className='link-dec-light'
+					to={{
+						pathname: '/user',
+						search: `?id=${by}`
+					}}
+				>
+					{by}
+				</Link>{' '}
+			</span>
 			<span>on {new Date(time * 1000).toLocaleString()} </span>
 			<span>
 				with{' '}
 				<Link
+					className='link-dec-light'
 					to={{
 						pathname: '/comments',
 						search: `?id=${id}`

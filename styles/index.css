@@ -1,4 +1,8 @@
 @import './Loader.css';
+@import './NavBar.css';
+@import './Story.css';
+@import './Comment.css';
+@import './Posts.css';
 
 *,
 *::before,
@@ -19,6 +23,15 @@ body {
 		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+ul {
+	/* margin: 0; */
+	padding: 0;
+}
+
+li {
+	list-style-type: none;
+}
+
 .light {
 	min-height: 100%;
 	background-color: #fff;
@@ -29,6 +42,14 @@ body {
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 50px;
+}
+
+.header {
+	margin-bottom: 5px;
+}
+
+.link-dec-light {
+	color: #000;
 }
 
 @keyframes dots {

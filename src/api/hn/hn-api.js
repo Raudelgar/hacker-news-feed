@@ -1,11 +1,18 @@
 const BASE_HOST = 'https://hacker-news.firebaseio.com/v0';
 const JSON_PRETTY_PARAMS = '?print=pretty';
-const TOP_STORIES = 'topstories.json';
+const TOP_STORIES = 'topstories';
+const NEW_STORIES = 'newstories';
 const GENERIC_ERROR_MSG =
 	'Something went wrong on the server. Please, try it againg in a few minutes. If the error persist, cooncatct suppport at US-Toll-free: 8888';
+const LIMIT = 50;
 
-export function fetchTopStories() {
-	const url = `${BASE_HOST}/${TOP_STORIES}${JSON_PRETTY_PARAMS}`;
+export function fetchAllStories(type) {
+	let url;
+	if (type === TOP_STORIES) {
+		url = `${BASE_HOST}/${TOP_STORIES}.json${JSON_PRETTY_PARAMS}`;
+	} else if (type === NEW_STORIES) {
+		url = `${BASE_HOST}/${NEW_STORIES}.json${JSON_PRETTY_PARAMS}`;
+	}
 
 	return fetch(url)
 		.then(res => {
@@ -21,7 +28,7 @@ export function fetchTopStories() {
 				);
 			}
 			let top50 = [];
-			for (let i = 0; i < 50; i++) {
+			for (let i = 0; i < LIMIT; i++) {
 				top50.push(data[i]);
 			}
 
@@ -31,15 +38,16 @@ export function fetchTopStories() {
 
 export function getStoriesFromId(Ids) {
 	let stories = [];
-	for (let id of Ids) {
-		stories.push(fetchStorieById(id));
+	for (let i = 0; i < LIMIT; i++) {
+		stories.push(fetchStorieById(Ids[i]));
 	}
 
 	return Promise.all(stories).then(results => results);
 }
 
-function fetchStorieById(id) {
-	return fetch(`${BASE_HOST}/item/${id}.json${JSON_PRETTY_PARAMS}`)
+export function fetchStorieById(id) {
+	const url = `${BASE_HOST}/item/${id}.json${JSON_PRETTY_PARAMS}`;
+	return fetch(url)
 		.then(res => {
 			if (!res.ok) {
 				throw new Error(getErrorMessages(res.status, null));
@@ -48,6 +56,19 @@ function fetchStorieById(id) {
 			return res.json();
 		})
 		.then(story => story);
+}
+
+export function fetchUserById(id) {
+	const url = `${BASE_HOST}/user/${id}.json${JSON_PRETTY_PARAMS}`;
+	return fetch(url)
+		.then(res => {
+			if (!res.ok) {
+				throw new Error(getErrorMessages(res.status, null));
+			}
+
+			return res.json();
+		})
+		.then(user => user);
 }
 
 function getErrorMessages(status, msg) {

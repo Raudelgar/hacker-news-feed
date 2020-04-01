@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { fetchTopStories, getStoriesFromId } from '../api/hn/hn-api.js';
+import { fetchAllStories, getStoriesFromId } from '../api/hn/hn-api.js';
 
 import Loader from './Loader.js';
 import Stories from './Stories.js';
@@ -9,12 +9,14 @@ export default class Top extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			type: 'topstories',
 			storiesIds: [],
 			stories: []
 		};
 	}
 	componentDidMount() {
-		fetchTopStories()
+		const { type } = this.state;
+		fetchAllStories(type)
 			.then(data => this.setState({ storiesIds: data }))
 			.catch(err => console.log(err));
 	}

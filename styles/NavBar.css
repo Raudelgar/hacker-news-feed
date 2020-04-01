@@ -15,3 +15,15 @@ nav {
 .nav li {
 	margin-right: 10px;
 }
+
+.navbar-light {
+	font-weight: bold;
+	color: #000;
+	text-decoration: none;
+}
+
+.selected {
+	font-weight: bold;
+	color: #bb2e1f;
+	text-decoration: none;
+}

@@ -38,8 +38,9 @@ export function getStoriesFromId(Ids) {
 	return Promise.all(stories).then(results => results);
 }
 
-function fetchStorieById(id) {
-	return fetch(`${BASE_HOST}/item/${id}.json${JSON_PRETTY_PARAMS}`)
+export function fetchStorieById(id) {
+	const url = `${BASE_HOST}/item/${id}.json${JSON_PRETTY_PARAMS}`;
+	return fetch(url)
 		.then(res => {
 			if (!res.ok) {
 				throw new Error(getErrorMessages(res.status, null));

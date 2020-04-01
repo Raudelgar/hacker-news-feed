@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar.js';
 import Top from './components/Top.js';
+import Comments from './components/Comments.js';
 
 export default function App(props) {
 	return (
@@ -12,6 +13,7 @@ export default function App(props) {
 					<NavBar />
 					<Switch>
 						<Route exact path='/' component={Top} />
+						<Route path='/comments' component={Comments} />
 						<Route
 							render={() => (
 								<div>

@@ -1,6 +1,7 @@
 @import './Loader.css';
 @import './NavBar.css';
 @import './Story.css';
+@import './Comment.css';
 
 *,
 *::before,
@@ -40,6 +41,10 @@ li {
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 50px;
+}
+
+.header {
+	margin-bottom: 5px;
 }
 
 @keyframes dots {

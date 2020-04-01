@@ -1,3 +1,7 @@
+nav {
+	height: 50px;
+}
+
 .row {
 	display: flex;
 	flex-direction: row;

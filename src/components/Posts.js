@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
 
 import Loader from './Loader.js';
 import Story from './Story.js';
+import { ThemeConsumer } from './ThemeContext.js';
 
-import { fetchUserById, getStoriesFromId } from '../api/hn/hn-api';
+import { getStoriesFromId } from '../api/hn/hn-api';
 import { insertInnerHtml } from '../util/insertInnerHtml.js';
 
 export default class Posts extends Component {
@@ -30,42 +30,46 @@ export default class Posts extends Component {
 		const { user } = this.props;
 
 		return (
-			<React.Fragment>
-				{!user ? (
-					<Loader label='Loading User' />
-				) : (
+			<ThemeConsumer>
+				{({ theme }) => (
 					<React.Fragment>
-						<h1 className='header post-light'>{user.id}</h1>
-						<div className='meta-info-light'>
-							<span>
-								joined {new Date(user.created * 1000).toLocaleString()}{' '}
-							</span>
-							<span>has {user.karma.toLocaleString()} karma</span>
-						</div>
-						{user.about && (
-							<p dangerouslySetInnerHTML={insertInnerHtml(user.about)}></p>
+						{!user ? (
+							<Loader label='Loading User' />
+						) : (
+							<React.Fragment>
+								<h1 className={`header post-${theme}`}>{user.id}</h1>
+								<div className={`meta-info-${theme}`}>
+									<span>
+										joined {new Date(user.created * 1000).toLocaleString()}{' '}
+									</span>
+									<span>has {user.karma.toLocaleString()} karma</span>
+								</div>
+								{user.about && (
+									<p dangerouslySetInnerHTML={insertInnerHtml(user.about)}></p>
+								)}
+							</React.Fragment>
+						)}
+						{!posts.length ? (
+							<Loader label='Fetching Posts' />
+						) : (
+							<React.Fragment>
+								<h2>Posts</h2>
+								<ul>
+									{posts.map(post => {
+										if (post) {
+											return (
+												<li key={post.id} style={{ margin: '20px 0' }}>
+													<Story story={post} />
+												</li>
+											);
+										}
+									})}
+								</ul>
+							</React.Fragment>
 						)}
 					</React.Fragment>
 				)}
-				{!posts.length ? (
-					<Loader label='Fetching Posts' />
-				) : (
-					<React.Fragment>
-						<h2>Posts</h2>
-						<ul>
-							{posts.map(post => {
-								if (post) {
-									return (
-										<li key={post.id} style={{ margin: '20px 0' }}>
-											<Story story={post} />
-										</li>
-									);
-								}
-							})}
-						</ul>
-					</React.Fragment>
-				)}
-			</React.Fragment>
+			</ThemeConsumer>
 		);
 	}
 }

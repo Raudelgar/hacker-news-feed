@@ -1,5 +1,6 @@
 nav {
 	height: 50px;
+	font-size: 1.2rem;
 }
 
 .row {
@@ -19,6 +20,12 @@ nav {
 .navbar-light {
 	font-weight: bold;
 	color: #000;
+	text-decoration: none;
+}
+
+.navbar-dark {
+	font-weight: bold;
+	color: #fff;
 	text-decoration: none;
 }
 

@@ -2,22 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import StoryInfo from './StoryInfo.js';
+import { ThemeConsumer } from './ThemeContext.js';
 
 export default function Story({ story }) {
-	// console.log(story);
-	const { by, descendants, id, kids, score, time, title, type, url } = story;
+	const { by, descendants, id, time, title, url } = story;
 
 	return (
-		<React.Fragment>
-			{title && (
+		<ThemeConsumer>
+			{({ theme }) => (
 				<React.Fragment>
-					<a href={url} target='_blank' className='link'>
-						{title}
-					</a>
-					<StoryInfo info={{ by, time, id, descendants }} />
+					{title && (
+						<React.Fragment>
+							<a href={url} target='_blank' className={`link-${theme}`}>
+								{title}
+							</a>
+							<StoryInfo info={{ by, time, id, descendants }} />
+						</React.Fragment>
+					)}
 				</React.Fragment>
 			)}
-		</React.Fragment>
+		</ThemeConsumer>
 	);
 }
 

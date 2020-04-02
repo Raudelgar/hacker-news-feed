@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 
-import { fetchAllStories } from '../api/hn/hn-api.js';
+import { fetchAllStories, fetchStorieById } from '../api/hn/hn-api.js';
 
 import Loader from './Loader.js';
 import Stories from './Stories.js';
@@ -11,15 +12,21 @@ export default class Store extends Component {
 		this.state = {
 			types: ['topstories', 'newstories'],
 			storiesIds: [],
+			header: null,
+			commentsIds: [],
 			loading: true
 		};
 	}
 	componentDidMount() {
+		console.log('--componentDidMount/Store--');
 		this.updateStoriesIds();
 	}
 
 	componentDidUpdate(prevProps, prevState) {
+		// console.log('prev', prevProps)
+		// console.log('this', this.props)
 		if (prevProps.match.path !== this.props.match.path) {
+			console.log('--componentDidUpdate/Store--');
 			this.setState({ loading: true });
 			this.updateStoriesIds();
 		}
@@ -28,25 +35,46 @@ export default class Store extends Component {
 	updateStoriesIds = () => {
 		const { path } = this.props.match;
 		const { types } = this.state;
-		let type;
+
 		switch (path) {
+			case '/comments':
+				this.updatePostId();
+				break;
 			case '/new':
-				type = types[1];
+				this.fetchByType(types[1]);
 				break;
 			default:
-				type = types[0];
+				this.fetchByType(types[0]);
 				break;
 		}
+	};
+
+	fetchByType = type => {
 		fetchAllStories(type)
 			.then(data => this.setState({ storiesIds: data, loading: false }))
 			.catch(err => console.log(err));
 	};
 
+	updatePostId = () => {
+		const { id } = queryString.parse(this.props.location.search);
+
+		fetchStorieById(id)
+			.then(data =>
+				this.setState({ header: data, commentsIds: data.kids, loading: false })
+			)
+			.catch(err => console.log(err));
+	};
+
 	render() {
-		const { storiesIds, loading } = this.state;
+		console.log('--render/Store--');
+		const { loading, storiesIds, header, commentsIds } = this.state;
 		return (
 			<React.Fragment>
-				{loading ? <Loader /> : <Stories storiesIds={storiesIds} />}
+				{loading ? (
+					<Loader />
+				) : (
+					this.props.children({ storiesIds, header, commentsIds })
+				)}
 			</React.Fragment>
 		);
 	}

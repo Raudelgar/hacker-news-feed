@@ -5,6 +5,7 @@ import NavBar from './components/NavBar.js';
 import Comments from './components/Comments.js';
 import Posts from './components/Posts.js';
 import Store from './components/Store.js';
+import Stories from './components/Stories.js';
 
 export default function App(props) {
 	return (
@@ -13,9 +14,30 @@ export default function App(props) {
 				<div className='container'>
 					<NavBar />
 					<Switch>
-						<Route exact path='/' component={Store} />
-						<Route path='/new' component={Store} />
-						<Route path='/comments' component={Comments} />
+						<Route
+							exact
+							path='/'
+							render={props => (
+								<Store {...props}>{store => <Stories {...store} />}</Store>
+							)}
+						/>
+						<Route
+							path='/new'
+							render={props => (
+								<Store {...props}>{store => <Stories {...store} />}</Store>
+							)}
+						/>
+						<Route
+							path='/comments'
+							render={props => {
+								const newProps = { ...props, loading: true };
+								return (
+									<Store {...newProps}>
+										{store => <Comments {...store} />}
+									</Store>
+								);
+							}}
+						/>
 						<Route path='/user' component={Posts} />
 						<Route
 							render={() => (

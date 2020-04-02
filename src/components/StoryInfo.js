@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 export default function StoryInfo({ info }) {
 	const { by, time, id, descendants } = info;
+
 	return (
 		<div className='meta-info-light'>
 			<span>

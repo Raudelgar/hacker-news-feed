@@ -39,7 +39,7 @@ export default class Posts extends Component {
 		return (
 			<React.Fragment>
 				{!posts.length ? (
-					<Loader />
+					<Loader label='Loading User' />
 				) : (
 					<React.Fragment>
 						<h1 className='header post-light'>{user.id}</h1>

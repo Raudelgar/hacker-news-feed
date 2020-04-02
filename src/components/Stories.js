@@ -14,11 +14,13 @@ export default class Stories extends Component {
 	}
 
 	componentDidMount() {
+		console.log('--componentDidMount/Stories--');
 		this.updateStories();
 	}
 
 	updateStories = () => {
 		const { storiesIds } = this.props;
+		console.log(storiesIds);
 		getStoriesFromId(storiesIds)
 			.then(data => this.setState({ stories: data }))
 			.catch(error => console.log(error));
@@ -32,11 +34,14 @@ export default class Stories extends Component {
 					<Loader />
 				) : (
 					<ul>
-						{stories.map(story => (
-							<li key={story.id} style={{ margin: '20px 0' }}>
-								<Story story={story} />
-							</li>
-						))}
+						{stories.map(story => {
+							if (story)
+								return (
+									<li key={story.id} style={{ margin: '20px 0' }}>
+										<Story story={story} />
+									</li>
+								);
+						})}
 					</ul>
 				)}
 			</React.Fragment>

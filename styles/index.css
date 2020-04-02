@@ -6,9 +6,7 @@
 
 *,
 *::before,
-*::after,
-html,
-body {
+*::after {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -32,10 +30,10 @@ li {
 	list-style-type: none;
 }
 
-.light {
-	min-height: 100%;
-	background-color: #fff;
-	color: #000;
+.dark {
+	background-color: #1f1f1f;
+	color: #ebebeb;
+	min-height: 100vh;
 }
 
 .container {
@@ -52,10 +50,27 @@ li {
 	color: #000;
 }
 
+.link-dec-dark {
+	color: #fff;
+}
+
 .today-light {
 	color: #808080;
 	margin-bottom: 20px;
 }
+
+.today-dark {
+	color: #cacaca;
+	margin-bottom: 20px;
+}
+
+.btn-clear {
+	border: none;
+	background-color: transparent;
+	outline: none;
+	border-radius: 0.2em;
+}
+
 @keyframes dots {
 	to {
 		width: 1.2em;

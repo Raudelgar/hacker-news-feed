@@ -6,6 +6,10 @@
 	display: inline-block;
 }
 
+.theme-dark {
+	color: #fff;
+}
+
 .loader::after {
 	content: '\2026';
 	display: inline-block;
@@ -13,5 +17,6 @@
 	vertical-align: bottom;
 	overflow: hidden;
 	width: 0;
+	color: inherit;
 	animation: dots steps(5, end) 3s infinite;
 }

@@ -1,7 +1,14 @@
-.comment {
+.comment-light {
 	margin: 10px 0;
 	padding: 10px;
 	background-color: #f1f1f1;
+	border-radius: 0.2em;
+}
+
+.comment-dark {
+	margin: 10px 0;
+	padding: 10px;
+	background-color: #2b2d2f;
 	border-radius: 0.2em;
 }
 

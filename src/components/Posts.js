@@ -11,34 +11,27 @@ export default class Posts extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user: null,
-			postIds: [],
 			posts: []
 		};
 	}
 	componentDidMount() {
-		const { id } = queryString.parse(this.props.location.search);
-
-		fetchUserById(id)
-			.then(data => this.setState({ user: data, postIds: data.submitted }))
-			.catch(err => console.log(err));
+		const { postIds } = this.props;
+		this.updateUserPosts(postIds);
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		const { postIds } = this.state;
-		if (prevState.postIds.length !== postIds.length) {
-			getStoriesFromId(postIds)
-				.then(data => this.setState({ posts: data }))
-				.catch(error => console.log(error));
-		}
-	}
+	updateUserPosts = Ids => {
+		getStoriesFromId(Ids)
+			.then(data => this.setState({ posts: data }))
+			.catch(error => console.log(error));
+	};
 
 	render() {
-		const { user, posts } = this.state;
+		const { posts } = this.state;
+		const { user } = this.props;
 
 		return (
 			<React.Fragment>
-				{!posts.length ? (
+				{!user ? (
 					<Loader label='Loading User' />
 				) : (
 					<React.Fragment>
@@ -49,14 +42,26 @@ export default class Posts extends Component {
 							</span>
 							<span>has {user.karma.toLocaleString()} karma</span>
 						</div>
-						<p dangerouslySetInnerHTML={insertInnerHtml(user.about)}></p>
+						{user.about && (
+							<p dangerouslySetInnerHTML={insertInnerHtml(user.about)}></p>
+						)}
+					</React.Fragment>
+				)}
+				{!posts.length ? (
+					<Loader label='Fetching Posts' />
+				) : (
+					<React.Fragment>
 						<h2>Posts</h2>
 						<ul>
-							{posts.map(post => (
-								<li key={post.id} style={{ margin: '20px 0' }}>
-									<Story story={post} />
-								</li>
-							))}
+							{posts.map(post => {
+								if (post) {
+									return (
+										<li key={post.id} style={{ margin: '20px 0' }}>
+											<Story story={post} />
+										</li>
+									);
+								}
+							})}
 						</ul>
 					</React.Fragment>
 				)}

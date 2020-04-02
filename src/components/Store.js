@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 
-import { fetchAllStories, fetchStorieById } from '../api/hn/hn-api.js';
+import {
+	fetchAllStories,
+	fetchStorieById,
+	fetchUserById
+} from '../api/hn/hn-api.js';
 
 import Loader from './Loader.js';
 
@@ -13,6 +17,8 @@ export default class Store extends Component {
 			storiesIds: [],
 			header: null,
 			commentsIds: [],
+			user: null,
+			postIds: [],
 			loading: true
 		};
 	}
@@ -32,6 +38,9 @@ export default class Store extends Component {
 		const { types } = this.state;
 
 		switch (path) {
+			case '/user':
+				this.updateUserById();
+				break;
 			case '/comments':
 				this.updatePostId();
 				break;
@@ -55,19 +64,46 @@ export default class Store extends Component {
 
 		fetchStorieById(id)
 			.then(data =>
-				this.setState({ header: data, commentsIds: data.kids, loading: false })
+				this.setState({
+					header: data,
+					commentsIds: data.kids ? data.kids : null,
+					loading: false
+				})
+			)
+			.catch(err => console.log(err));
+	};
+
+	updateUserById = () => {
+		const { id } = queryString.parse(this.props.location.search);
+
+		fetchUserById(id)
+			.then(data =>
+				this.setState({ user: data, postIds: data.submitted, loading: false })
 			)
 			.catch(err => console.log(err));
 	};
 
 	render() {
-		const { loading, storiesIds, header, commentsIds } = this.state;
+		const {
+			loading,
+			storiesIds,
+			header,
+			commentsIds,
+			user,
+			postIds
+		} = this.state;
 		return (
 			<React.Fragment>
 				{loading ? (
 					<Loader />
 				) : (
-					this.props.children({ storiesIds, header, commentsIds })
+					this.props.children({
+						storiesIds,
+						header,
+						commentsIds,
+						user,
+						postIds
+					})
 				)}
 			</React.Fragment>
 		);

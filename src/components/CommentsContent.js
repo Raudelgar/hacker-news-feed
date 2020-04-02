@@ -16,9 +16,8 @@ export default function CommentsContent({ content }) {
 			</h1>
 			<StoryInfo info={header} />
 			<br></br>
-			{!comments.length ? (
-				<Loader label='Fetching Posts' />
-			) : (
+			{comments && !comments.length && <Loader label='Fetching Posts' />}
+			{comments && (
 				<React.Fragment>
 					{comments.map(comment => {
 						if (comment) return <Comment key={comment.id} comment={comment} />;

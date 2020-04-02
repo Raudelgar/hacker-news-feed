@@ -33,16 +33,16 @@ export default function App(props) {
 							/>
 							<Route
 								path='/comments'
-								render={props => {
-									const newProps = { ...props, loading: true };
-									return (
-										<Store {...newProps}>
-											{store => <Comments {...store} />}
-										</Store>
-									);
-								}}
+								render={props => (
+									<Store {...props}>{store => <Comments {...store} />}</Store>
+								)}
 							/>
-							<Route path='/user' component={Posts} />
+							<Route
+								path='/user'
+								render={props => (
+									<Store {...props}>{store => <Posts {...store} />}</Store>
+								)}
+							/>
 						</Suspense>
 						<Route
 							render={() => (

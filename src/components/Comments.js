@@ -14,7 +14,9 @@ export default class Comments extends Component {
 
 	componentDidMount() {
 		const { commentsIds } = this.props;
-		if (commentsIds.length) {
+		if (!commentsIds) {
+			this.setState({ comments: null });
+		} else if (commentsIds && commentsIds.length) {
 			this.updatePosts(commentsIds);
 		}
 	}

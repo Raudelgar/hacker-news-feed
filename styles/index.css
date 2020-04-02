@@ -52,6 +52,10 @@ li {
 	color: #000;
 }
 
+.today-light {
+	color: #808080;
+	margin-bottom: 20px;
+}
 @keyframes dots {
 	to {
 		width: 1.2em;

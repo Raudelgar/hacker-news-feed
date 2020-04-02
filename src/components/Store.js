@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 
-import { fetchAllStories } from '../api/hn/hn-api.js';
+import {
+	fetchAllStories,
+	fetchStorieById,
+	fetchUserById
+} from '../api/hn/hn-api.js';
 
 import Loader from './Loader.js';
-import Stories from './Stories.js';
 
 export default class Store extends Component {
 	constructor(props) {
@@ -11,6 +15,10 @@ export default class Store extends Component {
 		this.state = {
 			types: ['topstories', 'newstories'],
 			storiesIds: [],
+			header: null,
+			commentsIds: [],
+			user: null,
+			postIds: [],
 			loading: true
 		};
 	}
@@ -28,25 +36,75 @@ export default class Store extends Component {
 	updateStoriesIds = () => {
 		const { path } = this.props.match;
 		const { types } = this.state;
-		let type;
+
 		switch (path) {
+			case '/user':
+				this.updateUserById();
+				break;
+			case '/comments':
+				this.updatePostId();
+				break;
 			case '/new':
-				type = types[1];
+				this.fetchByType(types[1]);
 				break;
 			default:
-				type = types[0];
+				this.fetchByType(types[0]);
 				break;
 		}
+	};
+
+	fetchByType = type => {
 		fetchAllStories(type)
 			.then(data => this.setState({ storiesIds: data, loading: false }))
 			.catch(err => console.log(err));
 	};
 
+	updatePostId = () => {
+		const { id } = queryString.parse(this.props.location.search);
+
+		fetchStorieById(id)
+			.then(data =>
+				this.setState({
+					header: data,
+					commentsIds: data.kids ? data.kids : null,
+					loading: false
+				})
+			)
+			.catch(err => console.log(err));
+	};
+
+	updateUserById = () => {
+		const { id } = queryString.parse(this.props.location.search);
+
+		fetchUserById(id)
+			.then(data =>
+				this.setState({ user: data, postIds: data.submitted, loading: false })
+			)
+			.catch(err => console.log(err));
+	};
+
 	render() {
-		const { storiesIds, loading } = this.state;
+		const {
+			loading,
+			storiesIds,
+			header,
+			commentsIds,
+			user,
+			postIds
+		} = this.state;
 		return (
 			<React.Fragment>
-				{loading ? <Loader /> : <Stories storiesIds={storiesIds} />}
+				{loading ? (
+					<Loader />
+				) : (
+					this.props.children({
+						storiesIds,
+						header,
+						commentsIds,
+						user,
+						postIds
+					})
+				)}
 			</React.Fragment>
 		);
 	}

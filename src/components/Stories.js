@@ -9,7 +9,8 @@ export default class Stories extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			stories: []
+			stories: [],
+			loading: true
 		};
 	}
 
@@ -20,23 +21,26 @@ export default class Stories extends Component {
 	updateStories = () => {
 		const { storiesIds } = this.props;
 		getStoriesFromId(storiesIds)
-			.then(data => this.setState({ stories: data }))
+			.then(data => this.setState({ stories: data, loading: false }))
 			.catch(error => console.log(error));
 	};
 
 	render() {
-		const { stories } = this.state;
+		const { stories, loading } = this.state;
 		return (
 			<React.Fragment>
-				{!stories.length ? (
+				{loading ? (
 					<Loader />
 				) : (
 					<ul>
-						{stories.map(story => (
-							<li key={story.id} style={{ margin: '20px 0' }}>
-								<Story story={story} />
-							</li>
-						))}
+						{stories.map(story => {
+							if (story)
+								return (
+									<li key={story.id} style={{ margin: '20px 0' }}>
+										<Story story={story} />
+									</li>
+								);
+						})}
 					</ul>
 				)}
 			</React.Fragment>

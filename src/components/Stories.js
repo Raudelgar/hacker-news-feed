@@ -9,28 +9,27 @@ export default class Stories extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			stories: []
+			stories: [],
+			loading: true
 		};
 	}
 
 	componentDidMount() {
-		console.log('--componentDidMount/Stories--');
 		this.updateStories();
 	}
 
 	updateStories = () => {
 		const { storiesIds } = this.props;
-		console.log(storiesIds);
 		getStoriesFromId(storiesIds)
-			.then(data => this.setState({ stories: data }))
+			.then(data => this.setState({ stories: data, loading: false }))
 			.catch(error => console.log(error));
 	};
 
 	render() {
-		const { stories } = this.state;
+		const { stories, loading } = this.state;
 		return (
 			<React.Fragment>
-				{!stories.length ? (
+				{loading ? (
 					<Loader />
 				) : (
 					<ul>

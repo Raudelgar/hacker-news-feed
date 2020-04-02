@@ -4,7 +4,6 @@ import queryString from 'query-string';
 import { fetchAllStories, fetchStorieById } from '../api/hn/hn-api.js';
 
 import Loader from './Loader.js';
-import Stories from './Stories.js';
 
 export default class Store extends Component {
 	constructor(props) {
@@ -18,15 +17,11 @@ export default class Store extends Component {
 		};
 	}
 	componentDidMount() {
-		console.log('--componentDidMount/Store--');
 		this.updateStoriesIds();
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		// console.log('prev', prevProps)
-		// console.log('this', this.props)
 		if (prevProps.match.path !== this.props.match.path) {
-			console.log('--componentDidUpdate/Store--');
 			this.setState({ loading: true });
 			this.updateStoriesIds();
 		}
@@ -66,7 +61,6 @@ export default class Store extends Component {
 	};
 
 	render() {
-		console.log('--render/Store--');
 		const { loading, storiesIds, header, commentsIds } = this.state;
 		return (
 			<React.Fragment>

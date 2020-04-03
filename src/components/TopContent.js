@@ -16,20 +16,7 @@ export default class TopContent extends Component {
 		};
 	}
 	componentDidMount() {
-		console.log('--componentDidMount/Top--');
 		this.updateStoriesIds();
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		console.log('--componentDidUpdate/Top--');
-		// if (prevProps.match.path !== this.props.match.path) {
-		// 	this.setState({ error: null, loading: true });
-		// 	this.updateStoriesIds();
-		// }
-	}
-
-	componentWillUnmount() {
-		console.log('--componentWillUnmount/Top--');
 	}
 
 	updateStoriesIds = () => {
@@ -42,7 +29,6 @@ export default class TopContent extends Component {
 	};
 
 	render() {
-		console.log('--render/Top--');
 		const { storiesIds, error, loading } = this.state;
 
 		return (

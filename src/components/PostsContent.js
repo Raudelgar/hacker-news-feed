@@ -1,35 +1,36 @@
 import React, { Component } from 'react';
-
-import { fetchAllStories } from '../api/hn/hn-api.js';
+import queryString from 'query-string';
+import { fetchUserById } from '../api/hn/hn-api.js';
 
 import ErrorHandler from './ErrorHandler.js';
 import Loader from './Loader.js';
 
-export default class NewContent extends Component {
+export default class PostsContent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			type: 'newstories',
-			storiesIds: [],
+			user: null,
+			postIds: [],
 			error: null,
 			loading: true
 		};
 	}
 	componentDidMount() {
-		this.updateStoriesIds();
+		this.updateUserById();
 	}
 
-	updateStoriesIds = () => {
-		const { type } = this.state;
-		fetchAllStories(type)
+	updateUserById = () => {
+		const { id } = queryString.parse(this.props.location.search);
+
+		fetchUserById(id)
 			.then(data =>
-				this.setState({ storiesIds: data, error: null, loading: false })
+				this.setState({ user: data, postIds: data.submitted, loading: false })
 			)
 			.catch(err => this.setState({ error: err, loading: false }));
 	};
 
 	render() {
-		const { storiesIds, error, loading } = this.state;
+		const { user, postIds, error, loading } = this.state;
 
 		return (
 			<React.Fragment>
@@ -38,7 +39,8 @@ export default class NewContent extends Component {
 				{!error &&
 					!loading &&
 					this.props.children({
-						storiesIds,
+						user,
+						postIds,
 						loading
 					})}
 			</React.Fragment>

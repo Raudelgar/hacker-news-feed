@@ -1,39 +1,54 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import queryString from 'query-string';
+import { fetchStorieById } from '../api/hn/hn-api.js';
 
+import ErrorHandler from './ErrorHandler.js';
 import Loader from './Loader.js';
-import StoryInfo from './StoryInfo.js';
-import Comment from './Comment.js';
-import { ThemeConsumer } from './ThemeContext.js';
 
-export default function CommentsContent({ content }) {
-	const { header, comments } = content;
-	return (
-		<ThemeConsumer>
-			{({ theme }) => (
-				<React.Fragment>
-					<h1 className={`header-${theme}`}>
-						<a href={header.url} target='_blank' className={`link-${theme}`}>
-							{header.title}
-						</a>
-					</h1>
-					<StoryInfo info={header} />
-					<br></br>
-					{comments && !comments.length && <Loader label='Fetching Posts' />}
-					{comments && (
-						<React.Fragment>
-							{comments.map(comment => {
-								if (comment)
-									return <Comment key={comment.id} comment={comment} />;
-							})}
-						</React.Fragment>
-					)}
-				</React.Fragment>
-			)}
-		</ThemeConsumer>
-	);
+export default class CommentsContent extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			header: null,
+			commentsIds: [],
+			error: null,
+			loading: true
+		};
+	}
+	componentDidMount() {
+		this.updatePostId();
+	}
+
+	updatePostId = () => {
+		const { id } = queryString.parse(this.props.location.search);
+
+		fetchStorieById(id)
+			.then(data =>
+				this.setState({
+					header: data,
+					commentsIds: data.kids ? data.kids : null,
+					error: null,
+					loading: false
+				})
+			)
+			.catch(err => this.setState({ error: err, loading: false }));
+	};
+
+	render() {
+		const { header, commentsIds, error, loading } = this.state;
+
+		return (
+			<React.Fragment>
+				{loading && <Loader />}
+				{error && <ErrorHandler error={error} />}
+				{!error &&
+					!loading &&
+					this.props.children({
+						header,
+						commentsIds,
+						loading
+					})}
+			</React.Fragment>
+		);
+	}
 }
-
-CommentsContent.propTypes = {
-	content: PropTypes.object.isRequired
-};

@@ -1,41 +1,35 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
-import { fetchStorieById } from '../api/hn/hn-api.js';
+
+import { fetchAllStories } from '../api/hn/hn-api.js';
 
 import ErrorHandler from './ErrorHandler.js';
 import Loader from './Loader.js';
 
-export default class CommentsContent extends Component {
+export default class TopContent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			header: null,
-			commentsIds: [],
+			type: 'topstories',
+			storiesIds: [],
 			error: null,
 			loading: true
 		};
 	}
 	componentDidMount() {
-		this.updatePostId();
+		this.updateStoriesIds();
 	}
 
-	updatePostId = () => {
-		const { id } = queryString.parse(this.props.location.search);
-
-		fetchStorieById(id)
+	updateStoriesIds = () => {
+		const { type } = this.state;
+		fetchAllStories(type)
 			.then(data =>
-				this.setState({
-					header: data,
-					commentsIds: data.kids ? data.kids : null,
-					error: null,
-					loading: false
-				})
+				this.setState({ storiesIds: data, error: null, loading: false })
 			)
 			.catch(err => this.setState({ error: err, loading: false }));
 	};
 
 	render() {
-		const { header, commentsIds, error, loading } = this.state;
+		const { storiesIds, error, loading } = this.state;
 
 		return (
 			<React.Fragment>
@@ -44,8 +38,7 @@ export default class CommentsContent extends Component {
 				{!error &&
 					!loading &&
 					this.props.children({
-						header,
-						commentsIds,
+						storiesIds,
 						loading
 					})}
 			</React.Fragment>

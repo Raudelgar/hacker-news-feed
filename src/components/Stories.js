@@ -11,8 +11,8 @@ export default class Stories extends Component {
 		super(props);
 		this.state = {
 			stories: [],
-			loading: true,
-			error: null
+			error: null,
+			loading: true
 		};
 	}
 
@@ -22,6 +22,7 @@ export default class Stories extends Component {
 
 	updateStories = () => {
 		const { storiesIds } = this.props;
+
 		getStoriesFromId(storiesIds)
 			.then(data =>
 				this.setState({ stories: data, loading: false, error: null })
@@ -31,11 +32,12 @@ export default class Stories extends Component {
 
 	render() {
 		const { stories, loading, error } = this.state;
+
 		return (
 			<React.Fragment>
 				{loading && <Loader />}
 				{error && !loading && <ErrorHandler error={error} />}
-				{!loading && !error && (
+				{!loading && (
 					<ul>
 						{stories.map(story => {
 							if (story)

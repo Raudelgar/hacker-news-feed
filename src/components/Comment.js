@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { insertInnerHtml } from '../util/insertInnerHtml.js';
 import { ThemeConsumer } from './ThemeContext.js';
+import Comments from './Comments.js';
 
 export default function Comment({ comment }) {
 	const { by, time, text } = comment;
@@ -19,3 +21,7 @@ export default function Comment({ comment }) {
 		</ThemeConsumer>
 	);
 }
+
+Comment.propTypes = {
+	comment: PropTypes.object.isRequired
+};

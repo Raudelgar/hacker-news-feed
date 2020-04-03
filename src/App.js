@@ -5,10 +5,13 @@ import NavBar from './components/NavBar.js';
 import Loader from './components/Loader.js';
 import { ThemeProvider } from './components/ThemeContext.js';
 
+const CommentsContent = lazy(() => import('./components/CommentsContent'));
 const Comments = lazy(() => import('./components/Comments.js'));
+const PostsContent = lazy(() => import('./components/PostsContent'));
 const Posts = lazy(() => import('./components/Posts.js'));
-const Store = lazy(() => import('./components/Store.js'));
 const Stories = lazy(() => import('./components/Stories.js'));
+const TopContent = lazy(() => import('./components/TopContent'));
+const NewContent = lazy(() => import('./components/NewContent'));
 const ErrorHandler = lazy(() => import('./components/ErrorHandler.js'));
 
 export default class App extends Component {
@@ -40,31 +43,33 @@ export default class App extends Component {
 										exact
 										path='/'
 										render={props => (
-											<Store {...props}>
+											<TopContent {...props}>
 												{store => <Stories {...store} />}
-											</Store>
+											</TopContent>
 										)}
 									/>
 									<Route
 										path='/new'
 										render={props => (
-											<Store {...props}>
+											<NewContent {...props}>
 												{store => <Stories {...store} />}
-											</Store>
+											</NewContent>
 										)}
 									/>
 									<Route
 										path='/comments'
 										render={props => (
-											<Store {...props}>
+											<CommentsContent {...props}>
 												{store => <Comments {...store} />}
-											</Store>
+											</CommentsContent>
 										)}
 									/>
 									<Route
 										path='/user'
 										render={props => (
-											<Store {...props}>{store => <Posts {...store} />}</Store>
+											<PostsContent {...props}>
+												{store => <Posts {...store} />}
+											</PostsContent>
 										)}
 									/>
 									<Route>

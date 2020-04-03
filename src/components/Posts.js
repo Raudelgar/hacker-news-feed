@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Loader from './Loader.js';
 import Story from './Story.js';
@@ -73,3 +74,8 @@ export default class Posts extends Component {
 		);
 	}
 }
+
+Posts.propTypes = {
+	postIds: PropTypes.array.isRequired,
+	user: PropTypes.object.isRequired
+};

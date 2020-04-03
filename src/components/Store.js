@@ -8,6 +8,7 @@ import {
 } from '../api/hn/hn-api.js';
 
 import Loader from './Loader.js';
+import ErrorHandler from './ErrorHandler.js';
 
 export default class Store extends Component {
 	constructor(props) {
@@ -19,7 +20,8 @@ export default class Store extends Component {
 			commentsIds: [],
 			user: null,
 			postIds: [],
-			loading: true
+			loading: true,
+			error: null
 		};
 	}
 	componentDidMount() {
@@ -28,7 +30,7 @@ export default class Store extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.match.path !== this.props.match.path) {
-			this.setState({ loading: true });
+			this.setState({ loading: true, error: null });
 			this.updateStoriesIds();
 		}
 	}
@@ -55,8 +57,10 @@ export default class Store extends Component {
 
 	fetchByType = type => {
 		fetchAllStories(type)
-			.then(data => this.setState({ storiesIds: data, loading: false }))
-			.catch(err => console.log(err));
+			.then(data =>
+				this.setState({ storiesIds: data, loading: false, error: null })
+			)
+			.catch(err => this.setState({ loading: false, error: err }));
 	};
 
 	updatePostId = () => {
@@ -67,10 +71,11 @@ export default class Store extends Component {
 				this.setState({
 					header: data,
 					commentsIds: data.kids ? data.kids : null,
-					loading: false
+					loading: false,
+					error: null
 				})
 			)
-			.catch(err => console.log(err));
+			.catch(err => this.setState({ loading: false, error: err }));
 	};
 
 	updateUserById = () => {
@@ -80,7 +85,7 @@ export default class Store extends Component {
 			.then(data =>
 				this.setState({ user: data, postIds: data.submitted, loading: false })
 			)
-			.catch(err => console.log(err));
+			.catch(err => this.setState({ loading: false, error: err }));
 	};
 
 	render() {
@@ -90,21 +95,22 @@ export default class Store extends Component {
 			header,
 			commentsIds,
 			user,
-			postIds
+			postIds,
+			error
 		} = this.state;
 		return (
 			<React.Fragment>
-				{loading ? (
-					<Loader />
-				) : (
+				{loading && <Loader />}
+				{error && !loading && <ErrorHandler error={error} />}
+				{!loading &&
+					!error &&
 					this.props.children({
 						storiesIds,
 						header,
 						commentsIds,
 						user,
 						postIds
-					})
-				)}
+					})}
 			</React.Fragment>
 		);
 	}

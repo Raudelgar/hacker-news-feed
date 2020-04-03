@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Story from './Story.js';
 import Loader from './Loader.js';
+import ErrorHandler from './ErrorHandler.js';
 import { getStoriesFromId } from '../api/hn/hn-api.js';
 
 export default class Stories extends Component {
@@ -10,7 +11,8 @@ export default class Stories extends Component {
 		super(props);
 		this.state = {
 			stories: [],
-			loading: true
+			loading: true,
+			error: null
 		};
 	}
 
@@ -21,17 +23,19 @@ export default class Stories extends Component {
 	updateStories = () => {
 		const { storiesIds } = this.props;
 		getStoriesFromId(storiesIds)
-			.then(data => this.setState({ stories: data, loading: false }))
-			.catch(error => console.log(error));
+			.then(data =>
+				this.setState({ stories: data, loading: false, error: null })
+			)
+			.catch(err => this.setState({ loading: false, error: err }));
 	};
 
 	render() {
-		const { stories, loading } = this.state;
+		const { stories, loading, error } = this.state;
 		return (
 			<React.Fragment>
-				{loading ? (
-					<Loader />
-				) : (
+				{loading && <Loader />}
+				{error && !loading && <ErrorHandler error={error} />}
+				{!loading && !error && (
 					<ul>
 						{stories.map(story => {
 							if (story)

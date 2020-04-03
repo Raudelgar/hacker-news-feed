@@ -9,6 +9,7 @@ const Comments = lazy(() => import('./components/Comments.js'));
 const Posts = lazy(() => import('./components/Posts.js'));
 const Store = lazy(() => import('./components/Store.js'));
 const Stories = lazy(() => import('./components/Stories.js'));
+const ErrorHandler = lazy(() => import('./components/ErrorHandler.js'));
 
 export default class App extends Component {
 	constructor(props) {
@@ -33,8 +34,8 @@ export default class App extends Component {
 					<div className={theme}>
 						<div className='container'>
 							<NavBar />
-							<Switch>
-								<Suspense fallback={<Loader label='Loading App' />}>
+							<Suspense fallback={<Loader label='Loading App' />}>
+								<Switch>
 									<Route
 										exact
 										path='/'
@@ -66,15 +67,11 @@ export default class App extends Component {
 											<Store {...props}>{store => <Posts {...store} />}</Store>
 										)}
 									/>
-								</Suspense>
-								<Route
-									render={() => (
-										<div>
-											<h3>404 - Page Not Found</h3>
-										</div>
-									)}
-								/>
-							</Switch>
+									<Route>
+										<ErrorHandler />
+									</Route>
+								</Switch>
+							</Suspense>
 						</div>
 					</div>
 				</ThemeProvider>

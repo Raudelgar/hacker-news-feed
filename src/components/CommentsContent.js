@@ -13,7 +13,7 @@ export default function CommentsContent({ content }) {
 			{({ theme }) => (
 				<React.Fragment>
 					<h1 className={`header-${theme}`}>
-						<a href='' className={`link-${theme}`}>
+						<a href={header.url} target='_blank' className={`link-${theme}`}>
 							{header.title}
 						</a>
 					</h1>

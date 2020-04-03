@@ -24,7 +24,7 @@ export function fetchAllStories(type) {
 		.then(data => {
 			if (!data) {
 				throw new Error(
-					getErrorMessages(null, 'Error fetching Top Stories Data')
+					getErrorMessages(501, 'Error fetching Top Stories Data')
 				);
 			}
 			let top50 = [];
@@ -72,9 +72,9 @@ export function fetchUserById(id) {
 }
 
 function getErrorMessages(status, msg) {
-	if (!status) {
-		return msg;
+	if (!msg) {
+		return `${status} - ${GENERIC_ERROR_MSG}`;
 	} else {
-		return `${status}: ${GENERIC_ERROR_MSG}`;
+		return `${status} - ${msg}`;
 	}
 }

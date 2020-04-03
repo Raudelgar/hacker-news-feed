@@ -11,17 +11,32 @@ export default class Stories extends Component {
 		super(props);
 		this.state = {
 			stories: [],
-			loading: true,
-			error: null
+			error: null,
+			loading: true
 		};
 	}
 
 	componentDidMount() {
+		console.log('--componentDidMount/Stories--');
 		this.updateStories();
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		console.log('--componentDidUpdate/Stories--');
+		console.log('prevProps', prevProps);
+		console.log('this.props', this.props);
+		if (prevProps.storiesIds.lenght !== this.props.storiesIds.length) {
+			// this.updateStories();
+		}
+	}
+
+	componentWillUnmount() {
+		console.log('--componentWillUnmount/Stories--');
 	}
 
 	updateStories = () => {
 		const { storiesIds } = this.props;
+		// console.log(storiesIds);
 		getStoriesFromId(storiesIds)
 			.then(data =>
 				this.setState({ stories: data, loading: false, error: null })
@@ -30,12 +45,14 @@ export default class Stories extends Component {
 	};
 
 	render() {
+		console.log('--render/Stories--');
 		const { stories, loading, error } = this.state;
+		console.log('Stories loading', loading);
 		return (
 			<React.Fragment>
 				{loading && <Loader />}
 				{error && !loading && <ErrorHandler error={error} />}
-				{!loading && !error && (
+				{!loading && (
 					<ul>
 						{stories.map(story => {
 							if (story)

@@ -6,7 +6,7 @@ import { ThemeConsumer } from './ThemeContext.js';
 
 export default function Story({ story }) {
 	const { by, descendants, id, time, title, url } = story;
-
+	console.log('--return/Story--');
 	return (
 		<ThemeConsumer>
 			{({ theme }) => (

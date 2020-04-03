@@ -9,6 +9,8 @@ const Comments = lazy(() => import('./components/Comments.js'));
 const Posts = lazy(() => import('./components/Posts.js'));
 const Store = lazy(() => import('./components/Store.js'));
 const Stories = lazy(() => import('./components/Stories.js'));
+const TopContent = lazy(() => import('./components/TopContent'));
+const NewContent = lazy(() => import('./components/NewContent'));
 const ErrorHandler = lazy(() => import('./components/ErrorHandler.js'));
 
 export default class App extends Component {
@@ -40,17 +42,17 @@ export default class App extends Component {
 										exact
 										path='/'
 										render={props => (
-											<Store {...props}>
+											<TopContent {...props}>
 												{store => <Stories {...store} />}
-											</Store>
+											</TopContent>
 										)}
 									/>
 									<Route
 										path='/new'
 										render={props => (
-											<Store {...props}>
+											<NewContent {...props}>
 												{store => <Stories {...store} />}
-											</Store>
+											</NewContent>
 										)}
 									/>
 									<Route

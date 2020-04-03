@@ -7,8 +7,8 @@ import {
 	fetchUserById
 } from '../api/hn/hn-api.js';
 
-import Loader from './Loader.js';
 import ErrorHandler from './ErrorHandler.js';
+import Loader from './Loader.js';
 
 export default class Store extends Component {
 	constructor(props) {
@@ -20,19 +20,25 @@ export default class Store extends Component {
 			commentsIds: [],
 			user: null,
 			postIds: [],
-			loading: true,
-			error: null
+			error: null,
+			loading: true
 		};
 	}
 	componentDidMount() {
+		console.log('--componentDidMount/Store--');
 		this.updateStoriesIds();
 	}
 
 	componentDidUpdate(prevProps, prevState) {
+		console.log('--componentDidUpdate/Store--');
 		if (prevProps.match.path !== this.props.match.path) {
-			this.setState({ loading: true, error: null });
+			this.setState({ error: null, loading: true });
 			this.updateStoriesIds();
 		}
+	}
+
+	componentWillUnmount() {
+		console.log('--componentWillUnmount/Store--');
 	}
 
 	updateStoriesIds = () => {
@@ -58,9 +64,9 @@ export default class Store extends Component {
 	fetchByType = type => {
 		fetchAllStories(type)
 			.then(data =>
-				this.setState({ storiesIds: data, loading: false, error: null })
+				this.setState({ storiesIds: data, error: null, loading: false })
 			)
-			.catch(err => this.setState({ loading: false, error: err }));
+			.catch(err => this.setState({ error: err, loading: false }));
 	};
 
 	updatePostId = () => {
@@ -71,11 +77,11 @@ export default class Store extends Component {
 				this.setState({
 					header: data,
 					commentsIds: data.kids ? data.kids : null,
-					loading: false,
-					error: null
+					error: null,
+					loading: false
 				})
 			)
-			.catch(err => this.setState({ loading: false, error: err }));
+			.catch(err => this.setState({ error: err, loading: false }));
 	};
 
 	updateUserById = () => {
@@ -85,31 +91,34 @@ export default class Store extends Component {
 			.then(data =>
 				this.setState({ user: data, postIds: data.submitted, loading: false })
 			)
-			.catch(err => this.setState({ loading: false, error: err }));
+			.catch(err => this.setState({ error: err, loading: false }));
 	};
 
 	render() {
+		console.log('--render/Store--');
 		const {
-			loading,
 			storiesIds,
 			header,
 			commentsIds,
 			user,
 			postIds,
-			error
+			error,
+			loading
 		} = this.state;
+
 		return (
 			<React.Fragment>
 				{loading && <Loader />}
-				{error && !loading && <ErrorHandler error={error} />}
-				{!loading &&
-					!error &&
+				{error && <ErrorHandler error={error} />}
+				{!error &&
+					!loading &&
 					this.props.children({
 						storiesIds,
 						header,
 						commentsIds,
 						user,
-						postIds
+						postIds,
+						loading
 					})}
 			</React.Fragment>
 		);

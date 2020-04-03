@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import { getStoriesFromId } from '../api/hn/hn-api';
 import CommentsContent from './CommentsContent.js';
 import Loader from './Loader.js';
+import ErrorHandler from './ErrorHandler.js';
 
 export default class Comments extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			comments: []
+			comments: [],
+			error: null
 		};
 	}
 
@@ -23,20 +25,18 @@ export default class Comments extends Component {
 
 	updatePosts = Ids => {
 		getStoriesFromId(Ids)
-			.then(data => this.setState({ comments: data }))
-			.catch(error => console.log(error));
+			.then(data => this.setState({ comments: data, error: null }))
+			.catch(err => this.setState({ error: err }));
 	};
 
 	render() {
-		const { comments } = this.state;
+		const { comments, error } = this.state;
 		const { header } = this.props;
 		return (
 			<React.Fragment>
-				{!header ? (
-					<Loader />
-				) : (
-					<CommentsContent content={{ header, comments }} />
-				)}
+				{!header && !error && <Loader />}
+				{error && <ErrorHandler error={error} />}
+				{!error && <CommentsContent content={{ header, comments }} />}
 			</React.Fragment>
 		);
 	}

@@ -5,10 +5,12 @@ import NavBar from './components/nav/NavBar.js';
 import Loader from './components/loader/Loader.js';
 import ThemeContext from './components/context/ThemeContext.js';
 
-const CommentsContent = lazy(() => import('./components/CommentsContent'));
-const Comments = lazy(() => import('./components/Comments.js'));
-const PostsContent = lazy(() => import('./components/PostsContent'));
-const Posts = lazy(() => import('./components/Posts.js'));
+const CommentsContent = lazy(() =>
+	import('./components/comments/CommentsContent.js')
+);
+const Comments = lazy(() => import('./components/comments/Comments.js'));
+const PostsContent = lazy(() => import('./components/posts/PostsContent.js'));
+const Posts = lazy(() => import('./components/posts/Posts.js'));
 const Stories = lazy(() => import('./components/story/Stories.js'));
 const TopContent = lazy(() => import('./components/TopContent'));
 const NewContent = lazy(() => import('./components/NewContent'));

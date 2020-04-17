@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import NavBar from './components/nav/NavBar.js';
-import Loader from './components/Loader.js';
+import Loader from './components/loader/Loader.js';
 import ThemeContext from './components/context/ThemeContext.js';
 
 const CommentsContent = lazy(() => import('./components/CommentsContent'));

@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { getStoriesFromId } from '../api/hn/hn-api';

@@ -11,8 +11,8 @@ const CommentsContent = lazy(() =>
 const Comments = lazy(() => import('./components/comments/Comments.js'));
 const PostsContent = lazy(() => import('./components/posts/PostsContent.js'));
 const Posts = lazy(() => import('./components/posts/Posts.js'));
-const Stories = lazy(() => import('./components/story/Stories.js'));
-const TopContent = lazy(() => import('./components/TopContent'));
+const Stories = lazy(() => import('./components/stories/Stories.js'));
+const TopContent = lazy(() => import('./components/stories/TopContent.js'));
 const NewContent = lazy(() => import('./components/NewContent'));
 const ErrorHandler = lazy(() => import('./components/ErrorHandler.js'));
 

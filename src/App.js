@@ -13,7 +13,7 @@ const PostsContent = lazy(() => import('./components/posts/PostsContent.js'));
 const Posts = lazy(() => import('./components/posts/Posts.js'));
 const Stories = lazy(() => import('./components/stories/Stories.js'));
 const TopContent = lazy(() => import('./components/stories/TopContent.js'));
-const NewContent = lazy(() => import('./components/NewContent'));
+const NewContent = lazy(() => import('./components/stories/NewContent.js'));
 const ErrorHandler = lazy(() => import('./components/ErrorHandler.js'));
 
 function App() {

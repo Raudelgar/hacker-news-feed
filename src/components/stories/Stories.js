@@ -5,11 +5,17 @@ import Story from './Story.js';
 import Loader from '../loader/Loader.js';
 import ErrorHandler from '../errorHandler/ErrorHandler.js';
 import { getStoriesFromId } from '../../api/hn/hn-api.js';
+import useContent from '../hooks/useContent.js';
 
 import './Story.css';
 
 function storiesReducer(state, action) {
 	switch (action.type) {
+		case 'load':
+			return {
+				...state,
+				loading: true,
+			};
 		case 'resolve':
 			return {
 				stories: action.payload,
@@ -21,6 +27,12 @@ function storiesReducer(state, action) {
 				...state,
 				error: action.payload,
 				loading: false,
+			};
+		case 'init':
+			return {
+				stories: [],
+				error: null,
+				loading: true,
 			};
 		default:
 			return new Error(`The ${action.type} is not supported`);
@@ -35,11 +47,21 @@ const initialState = {
 
 export default function Stories(props) {
 	const [state, dispatch] = useReducer(storiesReducer, initialState);
+	const data = useContent(props.type);
 
 	useEffect(() => {
-		const { storiesIds } = props;
-		updateStories(storiesIds);
-	}, [props]);
+		const { storiesIds, error, loading } = data;
+
+		if (loading) {
+			dispatch({ type: 'load' });
+		} else if (error) {
+			dispatch({ type: 'reject', payload: error });
+		} else {
+			updateStories(storiesIds);
+		}
+
+		return () => dispatch({ type: 'init' });
+	}, [data]);
 
 	const updateStories = (storiesIds) => {
 		getStoriesFromId(storiesIds)
@@ -73,5 +95,5 @@ export default function Stories(props) {
 }
 
 Stories.propTypes = {
-	storiesIds: PropTypes.array.isRequired,
+	type: PropTypes.string.isRequired,
 };

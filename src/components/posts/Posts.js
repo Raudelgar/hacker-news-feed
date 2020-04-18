@@ -15,7 +15,7 @@ export default function Posts(props) {
 
 	useEffect(() => {
 		const { postIds } = props;
-		updateUserPosts();
+		updateUserPosts(postIds);
 	}, []);
 
 	const updateUserPosts = (Ids) => {

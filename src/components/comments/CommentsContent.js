@@ -36,12 +36,11 @@ export default function CommentsContent(props) {
 	const [state, dispatch] = useReducer(commentsContentReducer, initialState);
 
 	useEffect(() => {
-		updatePostId();
-	}, []);
-
-	const updatePostId = () => {
 		const { id } = queryString.parse(props.location.search);
+		updatePostId(id);
+	}, [props]);
 
+	const updatePostId = (id) => {
 		fetchStorieById(id)
 			.then((data) =>
 				dispatch({

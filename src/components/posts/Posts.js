@@ -16,7 +16,7 @@ export default function Posts(props) {
 	useEffect(() => {
 		const { postIds } = props;
 		updateUserPosts(postIds);
-	}, []);
+	}, [props]);
 
 	const updateUserPosts = (Ids) => {
 		getStoriesFromId(Ids)
@@ -57,6 +57,7 @@ export default function Posts(props) {
 									</li>
 								);
 							}
+							return null;
 						})}
 					</ul>
 				</>

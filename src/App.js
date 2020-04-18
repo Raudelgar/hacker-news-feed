@@ -12,8 +12,6 @@ const Comments = lazy(() => import('./components/comments/Comments.js'));
 const PostsContent = lazy(() => import('./components/posts/PostsContent.js'));
 const Posts = lazy(() => import('./components/posts/Posts.js'));
 const Stories = lazy(() => import('./components/stories/Stories.js'));
-const TopContent = lazy(() => import('./components/stories/TopContent.js'));
-const NewContent = lazy(() => import('./components/stories/NewContent.js'));
 const ErrorHandler = lazy(() =>
 	import('./components/errorHandler/ErrorHandler.js')
 );
@@ -35,19 +33,11 @@ function App() {
 								<Route
 									exact
 									path='/'
-									render={(props) => (
-										<TopContent {...props}>
-											{(store) => <Stories {...store} />}
-										</TopContent>
-									)}
+									render={(props) => <Stories {...props} type='topstories' />}
 								/>
 								<Route
 									path='/new'
-									render={(props) => (
-										<NewContent {...props}>
-											{(store) => <Stories {...store} />}
-										</NewContent>
-									)}
+									render={(props) => <Stories {...props} type='newstories' />}
 								/>
 								<Route
 									path='/comments'

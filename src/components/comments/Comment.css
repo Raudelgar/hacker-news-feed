@@ -15,3 +15,15 @@
 p {
 	margin: 15px 0;
 }
+
+.link-light {
+	color: #bb2e1f;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.link-dark {
+	color: #dadada;
+	text-decoration: none;
+	font-weight: bold;
+}

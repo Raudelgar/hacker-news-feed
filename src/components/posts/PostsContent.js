@@ -36,12 +36,11 @@ export default function PostsContent(props) {
 	const [state, dispatch] = useReducer(postsContentReducer, initialState);
 
 	useEffect(() => {
-		updateUserById();
-	}, []);
-
-	const updateUserById = () => {
 		const { id } = queryString.parse(props.location.search);
+		updateUserById(id);
+	}, [props]);
 
+	const updateUserById = (id) => {
 		fetchUserById(id)
 			.then((data) =>
 				dispatch({ type: 'resolve', user: data, postIds: data.submitted })

@@ -37,12 +37,11 @@ export default function Stories(props) {
 	const [state, dispatch] = useReducer(storiesReducer, initialState);
 
 	useEffect(() => {
-		updateStories();
-	}, []);
-
-	const updateStories = () => {
 		const { storiesIds } = props;
+		updateStories(storiesIds);
+	}, [props]);
 
+	const updateStories = (storiesIds) => {
 		getStoriesFromId(storiesIds)
 			.then((data) => dispatch({ type: 'resolve', payload: data }))
 			.catch((err) => dispatch({ type: 'reject', payload: err }));
@@ -57,12 +56,15 @@ export default function Stories(props) {
 			{!loading && (
 				<ul>
 					{stories.map((story) => {
-						if (story)
+						if (story) {
 							return (
 								<li key={story.id} style={{ margin: '20px 0' }}>
 									<Story story={story} />
 								</li>
 							);
+						}
+
+						return null;
 					})}
 				</ul>
 			)}

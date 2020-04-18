@@ -12,7 +12,12 @@ export default function Story({ story }) {
 		<>
 			{title && (
 				<>
-					<a href={url} target='_blank' className={`link-${theme}`}>
+					<a
+						href={url}
+						rel='noopener noreferrer'
+						target='_blank'
+						className={`link-${theme}`}
+					>
 						{title}
 					</a>
 					<StoryInfo info={{ by, time, id, descendants }} />

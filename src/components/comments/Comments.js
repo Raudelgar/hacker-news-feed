@@ -47,7 +47,7 @@ export default function Comments(props) {
 		} else if (commentsIds && commentsIds.length) {
 			updatePosts(commentsIds);
 		}
-	}, []);
+	}, [props]);
 
 	const updatePosts = (Ids) => {
 		getStoriesFromId(Ids)
@@ -64,7 +64,12 @@ export default function Comments(props) {
 			{!error && (
 				<>
 					<h1 className={`header-${theme}`}>
-						<a href={header.url} target='_blank' className={`link-${theme}`}>
+						<a
+							href={header.url}
+							rel='noopener noreferrer'
+							target='_blank'
+							className={`link-${theme}`}
+						>
 							{header.title}
 						</a>
 					</h1>
@@ -74,8 +79,11 @@ export default function Comments(props) {
 					{comments && (
 						<>
 							{comments.map((comment) => {
-								if (comment)
+								if (comment) {
 									return <Comment key={comment.id} comment={comment} />;
+								}
+
+								return null;
 							})}
 						</>
 					)}

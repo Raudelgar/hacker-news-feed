@@ -1,8 +1,8 @@
 import React, { useReducer, useEffect } from 'react';
 import queryString from 'query-string';
-import { fetchStorieById } from '../api/hn/hn-api.js';
+import { fetchStorieById } from '../../api/hn/hn-api.js';
 
-import ErrorHandler from './ErrorHandler.js';
+import ErrorHandler from './../errorHandler/ErrorHandler.js';
 import Loader from '../loader/Loader.js';
 
 function commentsContentReducer(state, action) {

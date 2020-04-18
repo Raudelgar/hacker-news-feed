@@ -1,0 +1,21 @@
+.link-light {
+	color: #bb2e1f;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.link-dark {
+	color: #dadada;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.meta-info-light {
+	margin-top: 5px;
+	color: #808080;
+}
+
+.meta-info-dark {
+	margin-top: 5px;
+	color: #adadad;
+}

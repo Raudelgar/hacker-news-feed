@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import NavBar from './components/nav/NavBar.js';
@@ -14,7 +14,9 @@ const Posts = lazy(() => import('./components/posts/Posts.js'));
 const Stories = lazy(() => import('./components/stories/Stories.js'));
 const TopContent = lazy(() => import('./components/stories/TopContent.js'));
 const NewContent = lazy(() => import('./components/stories/NewContent.js'));
-const ErrorHandler = lazy(() => import('./components/ErrorHandler.js'));
+const ErrorHandler = lazy(() =>
+	import('./components/errorHandler/ErrorHandler.js')
+);
 
 function App() {
 	const [theme, setTheme] = useState('light');

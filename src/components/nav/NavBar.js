@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
+import './NavBar.css';
 
 import ThemeContext from '../context/ThemeContext.js';
 

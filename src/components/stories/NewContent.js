@@ -1,9 +1,9 @@
 import React, { useReducer, useEffect } from 'react';
 
-import { fetchAllStories } from '../api/hn/hn-api.js';
+import { fetchAllStories } from '../../api/hn/hn-api.js';
 
-import ErrorHandler from './ErrorHandler.js';
-import Loader from './Loader.js';
+import ErrorHandler from '../errorHandler/ErrorHandler.js';
+import Loader from '../loader/Loader.js';
 
 function newContentReducer(state, action) {
 	switch (action.type) {
@@ -31,7 +31,7 @@ const initialState = {
 	loading: true,
 };
 
-export default function NewContent() {
+export default function NewContent(props) {
 	const [state, dispatch] = useReducer(newContentReducer, initialState);
 
 	useEffect(() => {

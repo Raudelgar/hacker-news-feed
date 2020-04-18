@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Story from './Story.js';
 import Loader from '../loader/Loader.js';
-import ErrorHandler from '../ErrorHandler.js';
+import ErrorHandler from '../errorHandler/ErrorHandler.js';
 import { getStoriesFromId } from '../../api/hn/hn-api.js';
 
 import './Story.css';

@@ -1,10 +1,10 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useReducer, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { getStoriesFromId } from '../api/hn/hn-api';
+import { getStoriesFromId } from '../../api/hn/hn-api.js';
 import Loader from '../loader/Loader.js';
-import ErrorHandler from './ErrorHandler.js';
-import StoryInfo from './StoryInfo.js';
+import ErrorHandler from '../errorHandler/ErrorHandler.js';
+import StoryInfo from '../stories/StoryInfo.js';
 import Comment from './Comment.js';
 import ThemeContext from '../context/ThemeContext.js';
 import CommentsContent from './CommentsContent';

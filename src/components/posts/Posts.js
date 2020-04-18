@@ -1,12 +1,13 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import Loader from '../loader/Loader.js';
-import Story from './Story.js';
+import Story from '../stories/Story.js';
 import ThemeContext from '../context/ThemeContext.js';
+import './Posts.css';
 
-import { getStoriesFromId } from '../api/hn/hn-api';
-import { insertInnerHtml } from '../util/insertInnerHtml.js';
+import { getStoriesFromId } from '../../api/hn/hn-api';
+import { insertInnerHtml } from '../../util/insertInnerHtml.js';
 
 export default function Posts(props) {
 	const [posts, setPosts] = useState([]);

@@ -1,9 +1,10 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import NavBar from './components/nav/NavBar.js';
 import Loader from './components/loader/Loader.js';
 import ThemeContext from './components/context/ThemeContext.js';
+import useTheme from './components/hooks/useTheme.js';
 
 const CommentsContent = lazy(() =>
 	import('./components/comments/CommentsContent.js')
@@ -17,10 +18,7 @@ const ErrorHandler = lazy(() =>
 );
 
 function App() {
-	const [theme, setTheme] = useState('light');
-
-	const toggleTheme = () =>
-		setTheme((curr) => (curr === 'light' ? 'dark' : 'light'));
+	const [theme, toggleTheme] = useTheme();
 
 	return (
 		<Router>
